@@ -39,7 +39,7 @@ class Guider(models.Model):
     email=models.EmailField()
     # password=models.CharField(max_length=15)
     # mobile_no=models.IntegerField(null=True,blank=True)
-    experties=models.CharField(max_length=10)
+    experties=models.CharField(max_length=50,null=True,blank=True)
     availibility=models.BooleanField(null=True,blank=True)
     isSelected=models.BooleanField(null=True,blank=True)
 
@@ -68,13 +68,16 @@ class Watchlist(models.Model):
 class Webinar(models.Model):
     guider=models.ForeignKey(Guider,on_delete=models.CASCADE)
     title=models.CharField(max_length=20)
-    date_time=models.DateTimeField()
+    date=models.DateField(default="ui")
+    time=models.TimeField(default="ui")
+    link=models.CharField(max_length=60,default="")
     duration=models.IntegerField()
-    number_of_attendee=models.IntegerField()
+    number_of_attendee=models.IntegerField(default=0)
+    isApproved=models.BooleanField(default=False)
 
 class investorConsultation(models.Model):
     goal_choices=[
-        ('Retirment Planning','Retirment Planning'),
+        ('Retirement Planning','Retirement Planning'),
         ('Wealth Building','Wealth Building'),
         ('Tax Saving','Tax Saving'),
         ('Education Fund','Education Fund')

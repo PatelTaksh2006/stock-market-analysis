@@ -70,38 +70,25 @@
 
     <div class="header">
         Stock Market Analysis
-    </div>
+    <!-- </div> -->
 
     <div class="nav">
         <a href="#">Home</a>
         <a href="#">About</a>
         <a href="#">Contact</a>
     </div>
-
+</div>
     <div class="container">
         <div class="form-box">
             <h2>Organize a Webinar</h2>
-            <form>
-                <label>Webinar Title:</label>
-                <input type="text" placeholder="Enter the webinar title">
-
-                <label>Date:</label>
-                <input type="date">
-
-                <label>Time:</label>
-                <input type="time">
-
-                <label>Webinar Description:</label>
-                <textarea rows="3" placeholder="Provide a brief description of the webinar"></textarea>
-
-                <label>Webinar Link:</label>
-                <input type="url" placeholder="Enter the webinar link">
-
+            <form method="post" action="">
+                {% csrf_token %}
+                {{ form.as_p }}  <!-- This will render the form with proper labels and fields -->
                 <button type="submit" class="btn">Organize Webinar</button>
             </form>
         </div>
     </div>
-
+    
     <div class="footer">
         © 2025 Stock Market Analysis. All Rights Reserved.
     </div>

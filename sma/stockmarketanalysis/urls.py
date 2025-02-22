@@ -15,4 +15,8 @@ urlpatterns=[
     path('marketanalysis',views.marketanalysis,name='marketanalysis'),
     path('sip',views.sip,name='sip'),
     path('consultation',views.consultation,name='consultation'),
+    path('payment',views.payment,name="payment"),
+    path('viewcommunication',views.communication_request,name="viewcommunication"),
+    path('organizewebinar',views.organize_webinar,name="organizewebinar"),
+    # path('approve_consultation',views.approve_consultation,name="approve_consultation"),  
 ]

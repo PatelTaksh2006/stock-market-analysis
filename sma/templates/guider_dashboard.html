@@ -78,8 +78,18 @@
     </div>
     <div class="container">
         <p>Welcome to Stock Market Analysis! Explore the tools and resources we offer to make informed investment decisions.</p>
-        <button class="btn">View Communication Request</button>
-        <button class="btn">Organize Webinar</button>
+        {% if form %}
+            <form method="post" action="">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button type="submit">Sumbit</button>
+            </form>
+        {% elif msg %}
+            <p>{{msg}}</p>
+        {% else %}
+        <button class="btn"><a href="viewcommunication">View Communication Request</a></button>
+        <button class="btn"><a href="organizewebinar">Organize Webinar</a></button>
+        {% endif %}
     </div>
     <div class="footer">
         &copy; 2025 Stock Market Analysis. All Rights Reserved.

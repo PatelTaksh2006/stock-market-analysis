@@ -98,3 +98,31 @@ class PaperTradingStock(forms.ModelForm):
         fields=["stock_name","no_of_purchase","buy_sell"]
 
     
+class payementForm(forms.Form):
+    card_number=forms.CharField(max_length=16,label="Card Number",required=True,widget=forms.NumberInput(attrs={"placeholder":"1234 5678 9101 1121"}))
+    expiry_date=forms.DateField(label="expiry Date(MM/YYYY)",widget=forms.DateInput(attrs={'type': 'month'}),
+        input_formats=['%m/%y'],required=True)
+    cvv=forms.CharField(max_length=3,required=True,widget=forms.PasswordInput(attrs={"placeholder":"***"}))
+
+
+class specialityForm(forms.ModelForm):
+    SPECIALTY_CHOICES = [
+        ('Retirement Planning', 'Retirement Planning'),
+        ('Wealth Building', 'Wealth Building'),
+        ('Tax Saving', 'Tax Saving'),
+        ('Education Fund', 'Education Fund')
+    ]
+
+    experties = forms.ChoiceField(choices=SPECIALTY_CHOICES, widget=forms.Select, required=True)
+
+    class Meta:
+        model = Guider
+        fields = ['experties']
+
+
+class WebinarRegisterForm(forms.ModelForm):
+    class Meta:
+        model=Webinar
+        fields=["title","date","time","duration","link"]
+
+    

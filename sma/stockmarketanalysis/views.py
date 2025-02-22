@@ -35,6 +35,8 @@ def login_page(request):
                         request.session["id"]=investor.id
                         return render(request,"user_dashboard.html")
                     else:
+                        guider=Guider.objects.get(user=user)
+                        request.session["id"]=guider.id
                         return render(request,"guider_dashboard.html")    
                 else:
                     messages.error(request,"No such user found. Please try again.")
@@ -87,8 +89,6 @@ def signup(request):
 def userdashboard(request):
     return render(request,"user_dashboard.html")
 
-def guiderdashboard(request):
-    return render(request,"guider_dashboard.html")
 
 
 def cms(request):
@@ -289,3 +289,93 @@ def consultation(request):
         else:
             messages.error(request,"Please correct the errors in the form.")
             return render(request,"consultation.html",{"form":ConsultationForm()})
+        
+
+def payment(request):
+    if request.method=="GET":
+        form=payementForm()
+        return render(request,"payement.html",{"form":form})
+    else:
+        form=payementForm(request.POST)
+        if form.is_valid():
+            expiry_date=form.cleaned_data["expiry_date"]
+            today=date.today()
+            if expiry_date<today:
+                messages.error(request,"Please Enter valid card details")
+                return render(request,"payement.html",{"form":form})
+            investor=Investor.objects.get(id=request.session["id"])
+            if investor.ispaid:
+                messages.error(request,"Your subscription is active")
+                return redirect("user_dashboard")
+            else:
+                investor.ispaid=True
+                investor.save()
+                messages.success(request,"You are upgraded to premium membership")
+                return redirect("user_dashboard")
+        else:
+            messages.error(request,"Please enter valid input")
+            print("error")
+            return render(request,"payement.html",{"form":form})
+        
+
+
+def guiderdashboard(request):
+    guider_id=request.session["id"]
+    guider=Guider.objects.get(id=guider_id)
+    if request.method=="GET":
+        if not guider.experties:
+            form=specialityForm()
+            return render(request,"guider_dashboard.html",{"form":form})
+        
+        elif not guider.isSelected:
+            return render(request,"guider_dashboard.html",{"msg":"Your approval is send to the Manager\nWait for approval"})
+        else:
+            return render(request,"guider_dashboard.html")
+    else:
+        form=specialityForm(request.POST or None,instance=guider)
+
+        if form.is_valid():
+            form.save()
+            return redirect("guider_dashboard")
+
+
+
+
+def communication_request(request):
+    guider_id=request.session["id"]
+    guider=Guider.objects.get(id=guider_id)
+    guider_experties=guider.experties
+    if request.method=="GET":
+        consultation_user=investorConsultation.objects.filter(goal=guider_experties)
+        user_data=[]
+        for cu in consultation_user:
+            user_data.append({
+                "user":cu.user.id,
+                "name":cu.user.name,
+                "email":cu.user.email,
+                "info":cu.info,
+                "date":cu.prefered_date
+            })
+        return render(request,"view_communication_request.html",{"data":user_data})
+    else:
+        selected_user=request.POST.getlist("approve")
+        for su in selected_user:
+            investor=investorConsultation.objects.get(user=su)
+            investor.delete()
+        
+        return redirect("guider_dashboard")
+# def approve_consultation(request):
+
+def organize_webinar(request):
+    if request.method=="GET":
+        form=WebinarRegisterForm()
+        print("send form")
+        return render(request,"webinar.html",{"form":form})
+    else:
+        form=WebinarRegisterForm(request.POST)
+        if form.is_valid():
+            instance=form.save(commit=False)
+            instance.guider=Guider.objects.get(id=request.session["id"])
+            instance.save()
+        
+        return redirect("guider_dashboard")

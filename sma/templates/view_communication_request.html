@@ -70,31 +70,30 @@
     <div class="container">
         <h2>Communication Requests</h2>
         <table>
+            <form method="post" action="">
+                {% csrf_token %}
             <tr>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Mobile</th>
                 <th>Typical Query</th>
+                <th>Date</th>
+                <th>Agree</th>
             </tr>
+            {% if data %}
+            {% for d in data %}
             <tr>
-                <td>User 1</td>
-                <td>user1@example.com</td>
-                <td>+1234567890</td>
-                <td>Request for guidance on investment strategies.</td>
+                <td>{{d.name}}</td>
+                <td>{{d.email}}</td>
+                <td>{{d.info}}</td>
+                <td>{{d.date}}</td>
+                <td><input type="checkbox" name="approve" id="approve" value="{{ d.user }}"></td>
             </tr>
-            <tr>
-                <td>User 2</td>
-                <td>user2@example.com</td>
-                <td>+0987654321</td>
-                <td>Interested in a consultation about stock market trends.</td>
-            </tr>
-            <tr>
-                <td>User 3</td>
-                <td>user3@example.com</td>
-                <td>+1122334455</td>
-                <td>Requested details about upcoming webinars.</td>
-            </tr>
+            {% endfor %}
+
+            {% endif %}
         </table>
+        <button type="submit">Submit</button>
+    </form>
     </div>
     
     <div class="footer">
