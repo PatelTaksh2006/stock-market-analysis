@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style/user.css' %}">
+    <title>Document</title>
+</head>
+<body>
+      <div class="header">
+        <div class="name">Stock Market Analysis</div>
+        <!-- <div class="space"><br></div> -->
+        <div class="nav">
+            <nav>
+                <li>Home</li>
+                <li>About</li>
+                <li>Contact</li>
+            </nav>
+        </div>
+      </div>
+      <div class="content">
+        <ul>
+            <li><a href="current_market_state">Current Market State</a></li>
+            <li><a href="papertrading">Paper trading</a></li>
+            <li><a href="webinar_registration">registration for webinar</a></li>
+            <li><a href="marketanalysis">Market Analysis and Prediction</a></li>
+            <li><a href="sip">personalized investment planning</a></li>
+            <li><a href="consultation">Expert consultations</a></li>
+        </ul>
+        <div class="premium">
+            <p>Try our premium features to unlock advanced tools and insights for smarter
+                investments.Experience expert consultations,personalized plans,and much more
+            </p>
+            <button>Buy Premium</button>
+        </div>
+    </div> 
+</body>
+</html>

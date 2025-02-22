@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organize a Webinar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        .header, .footer {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .nav {
+            text-align: center;
+            margin: 10px 0;
+        }
+        .nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: black;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+        }
+        .form-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+            padding-right: 40px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 12px;
+            border: none;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        Stock Market Analysis
+    </div>
+
+    <div class="nav">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </div>
+
+    <div class="container">
+        <div class="form-box">
+            <h2>Organize a Webinar</h2>
+            <form>
+                <label>Webinar Title:</label>
+                <input type="text" placeholder="Enter the webinar title">
+
+                <label>Date:</label>
+                <input type="date">
+
+                <label>Time:</label>
+                <input type="time">
+
+                <label>Webinar Description:</label>
+                <textarea rows="3" placeholder="Provide a brief description of the webinar"></textarea>
+
+                <label>Webinar Link:</label>
+                <input type="url" placeholder="Enter the webinar link">
+
+                <button type="submit" class="btn">Organize Webinar</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="footer">
+        © 2025 Stock Market Analysis. All Rights Reserved.
+    </div>
+
+</body>
+</html>
+
+

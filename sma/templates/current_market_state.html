@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Market Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .search-box {
+            margin-bottom: 15px;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 8px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        .positive {
+            color: green;
+        }
+        .negative {
+            color: red;
+        }
+        .watchlist {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #eee;
+            border-radius: 5px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">Stock Market Analysis</div>
+    <div class="container">
+        <h2>Current Market State</h2>
+        <div class="search-box">
+            <form method="post" action="current_market_state">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button type="submit">Search</button>
+            </form>
+            <!-- <button>Search</button> -->
+        </div>
+        <table>
+            <tr>
+                <th>Stock Name</th>
+                <th>Current Price</th>
+                <th>Sector</th>
+                <th>Volume</th>
+            </tr>
+            {% if data %}
+            <tr>
+                <td>{{data.name}}</td>
+                <td>{{data.current_price}}</td>
+                <td>{{data.sector}}</td>
+                <!-- <td class="positive">+2.5%</td> -->
+                <td>{{data.volume}}</td>
+
+            </tr>
+            <button><a href="{% url 'addToWatchlist' data.name %}" class="btn btn-primary" style="text-decoration: none;color:white;">Add</a></button>
+
+            {% else %}
+            <tr>
+                <td>XYZ Ltd</td>
+                <td>$80</td>
+                <td class="negative">-1.5%</td>
+                <td>600,000</td>
+            </tr>
+            <tr>
+                <td>ABC Ltd</td>
+                <td>$1000</td>
+                <!-- <td class="negative">-1.5%</td> -->
+                <td>Agriculture</td>
+                <td>600,000</td>
+            </tr>
+            {% endif %}
+        </table>
+        <div class="watchlist">
+            <h3>Watchlist</h3>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Sector</th>
+                    <th>Current_Price</th>
+                </tr>
+                {% if watchlist %}
+                {% for w in watchlist %}
+                <tr>
+                    <td>{{w.name}}</td>
+                    <td>{{w.sector}}</td>
+                    <td>{{w.price}}</td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+            </table>
+        </div>
+    </div>
+    <div class="footer">&copy; 2025 Stock Market Analysis. All rights reserved.</div>
+</body>
+</html>
+
+

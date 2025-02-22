@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style/login.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <div class="form">
+        <h1>Create Account</h1>
+        {% if messages %}
+    <div class="error-container">
+        {% for message in messages %}
+            <p class="error-message">{{ message }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
+        <form action="" method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <span><input type="checkbox" name="agree" id="agree"></span>
+        <span>I agree to the <a href="#terms">Terms and Conditions</a></span>
+        <br>
+        <br><button type="submit" style="height: 40px;">Register</button>
+    
+    </form>
+    <span>Already have an accoount? <a href="login">Login</a></span>
+    <span></span>
+    </div>
+</body>
+</html>

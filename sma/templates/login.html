@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style/login.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <div class="form">
+        <h1>Login</h1>
+    <form action="login" method="post">
+        {% csrf_token %}
+        {% if messages %}
+            {% for message in messages %}
+                <p style="color:red">{{message}}</p>
+            {% endfor %}
+        {% endif %}
+        {{form.as_p}}
+        <span><input type="checkbox" name="RememberMe" id="RememberMe"></span>
+        <span>Remember Me</span>
+        <br><button type="submit">Login</button>
+    
+    </form>
+    <span>Don't have an accoount</span>
+    <span><a href="signup">Sign up</a></span>
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIP Investment Planning</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .container {
+            width: 40%;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">Personalized SIP Investment Planning</div>
+    <div class="container">
+        <h2>SIP Specification</h2>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit">calculate</button>
+        </form>
+        <p style="color: green;">
+            {% if ans %}
+            Expected SIP Maturity Amount: ₹:
+            {{ans}}
+            {% endif %}
+        </p>
+    </div>
+    <div class="footer">&copy; 2025 SIP Investment Planning. All rights reserved.</div>
+
+     <script>
+        function calculateSIP() {
+            let investment = document.getElementById("investment").value;
+            let duration = document.getElementById("duration").value;
+            let rate = document.getElementById("return").value;
+            
+            if (!investment || !duration || !rate) {
+                alert("Please fill all fields correctly.");
+                return;
+            }
+            
+            let n = duration * 12;
+            let r = rate / 100 / 12;
+            let futureValue = investment * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
+            
+            alert("Expected SIP Maturity Amount: ₹" + futureValue.toFixed(2));
+        }
+    </script> 
+</body>
+</html>
+
+
+ 

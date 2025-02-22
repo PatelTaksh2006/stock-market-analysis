@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Analysis and Prediction</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .container {
+            width: 60%;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .chart-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+            display: none;
+        }
+        .prediction-container {
+            display: none;
+            margin-top: 20px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+            text-align: left;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">Market Analysis and Prediction</div>
+    <div class="container">
+        <h2>Enter Stock Symbol</h2>
+        <form action="marketanalysis" method="post">
+            {% csrf_token %}
+        <label for="symbol">Stock Symbol:</label>
+        <input type="text" id="symbol" placeholder="Enter stock symbol" required>
+        <!-- <button type="submit">check</button> -->
+        </form>
+        <button id="analyze-btn" type="button">Analyze</button>
+        
+        <div class="chart-container" id="chart-section">
+            <h2>Market Trends</h2>
+            <canvas id="marketChart"></canvas>
+        </div>
+        
+        <h2>Prediction Tools</h2>
+        <label for="time-horizon">Prediction Time Horizon:</label>
+        <select id="time-horizon">
+            <option value="1week">1 Week</option>
+            <option value="1month">1 Month</option>
+            <option value="3months">3 Months</option>
+        </select>
+        
+        <button id="predict-btn" type="button">Predict</button>
+        
+        <div id="prediction-result" class="prediction-container">
+            <h3>Prediction for <span id="predicted-stock"></span></h3>
+            <p id="prediction-text">Prediction data will be shown here.</p>
+        </div>
+    </div>
+    <div class="footer">&copy; 2025 Paper Trading Platform. All rights reserved.</div>
+    
+    <script>
+        var ctx = document.getElementById('marketChart').getContext('2d');
+        var marketChart;
+        
+        function createChart() {
+            return new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
+                    datasets: [{
+                        label: 'Stock Price',
+                        data: [100, 102, 98, 105, 107, 110, 108],
+                        borderColor: 'blue',
+                        backgroundColor: 'rgba(0, 123, 255, 0.2)',
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+        
+        document.getElementById('analyze-btn').addEventListener('click', function() {
+            var stockSymbol = document.getElementById('symbol').value.trim();
+            if (stockSymbol) {
+                document.getElementById('chart-section').style.display = 'block';
+                if (marketChart) {
+                    marketChart.destroy();
+                }
+                marketChart = createChart();
+            } else {
+                alert("Please enter a stock symbol before analyzing.");
+            }
+        });
+        
+        document.getElementById('predict-btn').addEventListener('click', function() {
+            var stockSymbol = document.getElementById('symbol').value.trim();
+            if (stockSymbol) {
+                document.getElementById('predicted-stock').textContent = stockSymbol;
+                document.getElementById('prediction-text').textContent = `Prediction for ${stockSymbol} will be generated based on selected time horizon.`;
+                document.getElementById('prediction-result').style.display = 'block';
+            } else {
+                alert("Please enter a stock symbol before predicting.");
+            }
+        });
+    </script>
+</body>
+</html>

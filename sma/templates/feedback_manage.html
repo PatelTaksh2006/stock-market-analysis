@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Feedback Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        .container {
+            width: 90%;
+            margin: auto;
+        }
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn {
+            padding: 5px 10px;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .approve {
+            background-color: green;
+        }
+        .delete {
+            background-color: red;
+        }
+        .footer {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">User Feedback Management</div>
+        <table>
+            <tr>
+                <th>Feedback ID</th>
+                <th>User Name</th>
+                <th>Email</th>
+                <th>Feedback</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            <tr>
+                <td>201</td>
+                <td>John Doe</td>
+                <td>johndoe@example.com</td>
+                <td>The charts are slow to load. Can this be improved?</td>
+                <td>Pending</td>
+                <td>
+                    <button class="btn approve">Mark as Reviewed</button>
+                    <button class="btn delete">Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>202</td>
+                <td>Jane Smith</td>
+                <td>janesmith@example.com</td>
+                <td>Please add a feature to customize watchlists.</td>
+                <td>Pending</td>
+                <td>
+                    <button class="btn approve">Mark as Reviewed</button>
+                    <button class="btn delete">Delete</button>
+                </td>
+            </tr>
+        </table>
+        <div class="footer">Stock Market Analysis - Admin Panel © 2025</div>
+    </div>
+</body>
+</html>
+
