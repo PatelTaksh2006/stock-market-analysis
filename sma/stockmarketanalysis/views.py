@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login ,logout
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from datetime import date
@@ -9,6 +9,9 @@ from django.db.models import Q
 def home(request):
     return render(request,'home.html')
 
+def logout_request(request):
+    logout(request)
+    return redirect("/")
 
 # def paperTrading(request):
 #     return render(request,'paperTrading.html')

@@ -24,5 +24,6 @@ urlpatterns=[
     # path('feedback/', views.feedback, name='feedback'),
     # path('approve_consultation',views.approve_consultation,name="approve_consultation"),  
     path('guider_manage', views.guider_approve, name='guider_approve'),
-    path('feedback_page',views.feedback_page,name="feedback")
+    path('feedback_page',views.feedback_page,name="feedback"),
+    path('logout',views.logout_request,name="logout_request"),
 ]

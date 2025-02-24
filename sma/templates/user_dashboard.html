@@ -16,6 +16,9 @@
                 <li>Home</li>
                 <li>About</li>
                 <li><a href="feedback_page" style="color: white;text-decoration:none">Feedback</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="logout">LogOut</a></li>
+                {% endif %}
             </nav>
         </div>
       </div>
