@@ -8,7 +8,8 @@ from django.contrib.auth.models import User
 class LoginForm(AuthenticationForm):
     CHOICE_ROLE=[
         ('investor','investor'),
-        ('guider','guider')
+        ('guider','guider'),
+        ('manager','manager'),
     ]
 
     role=forms.ChoiceField(label="Login as",choices=CHOICE_ROLE,widget=forms.Select,error_messages={'required': ''})
@@ -25,6 +26,7 @@ class SignUpForm(UserCreationForm):
     ROLE_CHOICES = [
         ('investor', 'Investor'),
         ('guider', 'Guider'),
+        ('manager','manager'),
     ]
     
     role = forms.ChoiceField(choices=ROLE_CHOICES, required=True, label="Register as")
@@ -69,7 +71,13 @@ class InvestmentForm(forms.Form):
         required=True,
         widget=forms.NumberInput(attrs={'placeholder': 'e.g., 12'})
     )
-
+class FeedbackForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['feedback']
+        widgets = {
+            'feedback': forms.Textarea(attrs={'placeholder': 'Your Feedback', 'rows': 4})
+        }
 class ConsultationForm(forms.ModelForm):
     prefered_date=forms.DateField(widget=forms.DateInput(attrs={"type":"date"}),required=True)
     class Meta:

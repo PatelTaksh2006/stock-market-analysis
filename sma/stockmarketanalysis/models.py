@@ -8,6 +8,7 @@ class CustomUser(AbstractUser):
         ('manager','manager')
     ]
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default="investor")
+    feedback=models.CharField(max_length=100,null=True,blank=True)
 
 class Investor(models.Model):
     # id=models.CharField(max_length=8)
@@ -27,7 +28,7 @@ class Manager(models.Model):
     name=models.CharField(max_length=30,null=True,blank=True)
     email=models.EmailField()
     # password=models.CharField(max_length=15)
-    mobile_no=models.IntegerField()
+    mobile_no=models.BigIntegerField(max_length=10,null=True,blank=True)
 
 
 
@@ -40,8 +41,7 @@ class Guider(models.Model):
     # password=models.CharField(max_length=15)
     # mobile_no=models.IntegerField(null=True,blank=True)
     experties=models.CharField(max_length=50,null=True,blank=True)
-    availibility=models.BooleanField(null=True,blank=True)
-    isSelected=models.BooleanField(null=True,blank=True)
+    isSelected=models.BooleanField(default=False)
 
 
 
@@ -86,4 +86,3 @@ class investorConsultation(models.Model):
     goal=models.CharField(max_length=20,choices=goal_choices,default="Wealth Building")
     prefered_date=models.DateField()
     info=models.CharField(max_length=60)
-# Create your models here.

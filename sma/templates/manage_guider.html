@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Feedback Management</title>
+    <title>Guider Management</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -60,27 +60,43 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">User Feedback Management</div>
+        <div class="header">Guider Management</div>
         <table>
             <tr>
-                <th>Feedback ID</th>
+                <th>Guider ID</th>
                 <th>User Name</th>
                 <th>Email</th>
-                <th>Feedback</th>
-                <!-- <th>Status</th>
-                <th>Actions</th> -->
+                <th>experties</th>
+                <th>Status</th>
+                <th>Actions</th>
             </tr>
-            {% for feed in feedback %}
+            {% for guider in guider_data %}
             <tr>
-                <td>{{feed.id}}</td>
-                <td>{{feed.name}}</td>
-                <td>{{feed.email}}</td>
-                <td>{{fd.fd}}</td>
-                <!-- <td>Pending</td>
+                <td>{{guider.id}}</td>
+                <td>{{guider.name}}</td>
+                <td>{{guider.email}}</td>
+                <td>{{guider.experties}}</td>
+                {% if guider.isSelected %}
+                <td>Active</td>
+                {% else %}
+                <td>Inactive</td>
+                {% endif %}
                 <td>
-                    <button class="btn approve">Mark as Reviewed</button>
-                    <button class="btn delete">Delete</button>
-                </td> -->
+                    {% if not guider.isSelected %}
+                    <form action="" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="guider_id" value="{{ guider.id }}">
+                        <input type="hidden" name="action" value="approve">
+                        <button class="btn approve" type="submit">Approve</button>
+                    </form>
+                    {% endif %}
+                    <form action="" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="guider_id" value="{{ guider.id }}">
+                        <input type="hidden" name="action" value="reject">
+                        <button class="btn approve" type="submit">Remove</button>
+                    </form>
+                </td>
             </tr>
             {% endfor %}
         </table>

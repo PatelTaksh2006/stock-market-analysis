@@ -57,10 +57,6 @@
             cursor: pointer;
             border-radius: 5px;
         }
-        .profile-btn {
-            background-color: #17a2b8;
-            color: white;
-        }
         .delete-btn {
             background-color: #dc3545;
             color: white;
@@ -71,6 +67,24 @@
             padding: 10px;
             background-color: #007bff;
             color: white;
+        }
+        
+        /* Checkbox as Button */
+        input[type="checkbox"] {
+            display: none;
+        }
+        .checkbox-label {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: #dc3545;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+        input[type="checkbox"]:checked + .checkbox-label {
+            background-color: #28a745;
         }
     </style>
 </head>
@@ -87,39 +101,42 @@
         <h2>Manage Users</h2>
         <p>View, edit, and manage user accounts efficiently.</p>
         
-        <table>
-            <tr>
-                <th>User ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>John Doe</td>
-                <td>john.doe@example.com</td>
-                <td>Active</td>
-                <td>
-                    <button class="button profile-btn">Profile</button>
-                    <button class="button delete-btn">Delete</button>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Jane Smith</td>
-                <td>jane.smith@example.com</td>
-                <td>Inactive</td>
-                <td>
-                    <button class="button profile-btn">Profile</button>
-                    <button class="button delete-btn">Delete</button>
-                </td>
-            </tr>
-        </table>
+        <form action="" method="post">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <th>User ID</th>
+                    <th>username</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>role</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                {% for data in user_data %}
+                <tr>
+                    <td>{{ data.id }}</td>
+                    <td>{{data.username}}</td>
+                    <td>{{ data.first_name }} {{data.last_name}}</td>
+                    <td>{{ data.email }}</td>
+                    <td>{{data.role}}</td>
+                    {% if data.is_active %}
+                    <td>Yes</td>
+                    {% else %}
+                    <td>No</td>
+                    {% endif %}
+                    <td>
+                        <input type="checkbox" id="del{{ data.id }}" name="del" value="{{ data.id }}">
+                        <label for="del{{ data.id }}" class="checkbox-label">Delete</label>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            <br>
+            <button type="submit" class="button delete-btn">Delete Selected</button>
+        </form>
     </div>
     
     <div class="footer">&copy; 2025 Stock Market Analysis Admin Panel. All rights reserved.</div>
 </body>
 </html>
-
-

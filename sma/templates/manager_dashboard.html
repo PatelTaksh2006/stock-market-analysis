@@ -55,6 +55,10 @@
             background-color: #007bff;
             color: white;
         }
+        a{
+            text-decoration: none;
+            color:black;
+        }
     </style>
 </head>
 <body>
@@ -70,11 +74,11 @@
         <h2>Welcome, Admin</h2>
         <p>Manage and oversee all system functions from this panel.</p>
         
-        <button class="button" onclick="alert('Manage Users Clicked')">Manage Users</button>
-        <button class="button" onclick="alert('Manage Subscriptions Clicked')">Manage Subscriptions</button>
-        <button class="button" onclick="alert('Control Over Webinars Clicked')">Control Over Webinars</button>
-        <button class="button" onclick="alert('Manage My System Clicked')">Manage My System</button>
-        <button class="button" onclick="alert('System Reports Clicked')">System Reports</button>
+        <button class="button"><a href="manage_user">Manage Users</a></button>
+        <button class="button"><a href="guider_manage">Approve/Manage Guider</a></button>
+        <button class="button"><a href="manage_subscriptions">Manage Subscriptions</a></button>
+        <button class="button"><a href="contorl_over_web">Control Over Webinars</a></button>
+        <button class="button"><a href="feedback">System Reports</a></button>
     </div>
     
     <div class="footer">&copy; 2025 Stock Market Analysis Admin Panel. All rights reserved.</div>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Subscriptions</title>
-    <style>
+    <style>  
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -17,6 +17,7 @@
             background: white;
             padding: 20px;
             box-shadow: 0px 0px 10px #aaa;
+            text-align: center;
         }
         .header {
             background-color: #007bff;
@@ -48,62 +49,40 @@
         .cancel {
             background-color: red;
         }
-        .update {
-            background-color: green;
-        }
-        .renew {
-            background-color: blue;
-        }
-        .view {
-            background-color: gray;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">Manage Subscriptions</div>
-        
+
+        {% if print %}
         <p><strong>Subscription Overview</strong><br>
-        Total Active Subscriptions: 450<br>
-        Total Expired Subscriptions: 120<br>
-        Total Accounts: 1000</p>
+        Total Active Subscriptions: {{ sub }}<br>
+        Total Inactive Subscriptions: {{ not_sub }}<br>
+        Total Accounts: {{ total }}</p>
         
         <table>
             <tr>
                 <th>User ID</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Subscription Plan</th>
-                <th>Status</th>
-                <th>Expiration Date</th>
-                <th>Actions</th>
+                <th>Payment Date</th>
             </tr>
+            {% for data in user_data %}
             <tr>
-                <td>101</td>
-                <td>John Doe</td>
-                <td>john@example.com</td>
-                <td>Premium</td>
-                <td>Active</td>
-                <td>2025-12-31</td>
-                <td>
-                    <button class="btn cancel">Cancel Plan</button>
-                    <button class="btn update">Update Details</button>
-                </td>
+                <td>{{ data.id }}</td>
+                <td>{{ data.username }}</td>
+                <td>{{ data.email }}</td>
+                <td>{{ data.payementDate|default:"N/A" }}</td> <!-- Avoid NoneType error -->
             </tr>
-            <tr>
-                <td>102</td>
-                <td>Jane Smith</td>
-                <td>jane@example.com</td>
-                <td>Standard</td>
-                <td>Expired</td>
-                <td>2024-10-15</td>
-                <td>
-                    <button class="btn renew">Renew Plan</button>
-                    <button class="btn view">View Details</button>
-                </td>
-            </tr>
+            {% endfor %}
         </table>
+        {% else %}
+        <form action="" method="post">
+            {% csrf_token %}
+            <button type="submit">Get data</button>
+        </form>
+        {% endif %}
     </div>
 </body>
 </html>
-

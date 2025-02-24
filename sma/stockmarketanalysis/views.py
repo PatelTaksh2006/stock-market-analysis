@@ -4,14 +4,26 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from datetime import date
 from .forms import *
+from django.db.models import Q
 # Create your views here.
 def home(request):
-    return render(request,'home.html',{'name':'Taksh','age':18})
+    return render(request,'home.html')
 
 
 # def paperTrading(request):
 #     return render(request,'paperTrading.html')
-
+def feedback_page(request):
+    if request.method == "POST":
+        form = FeedbackForm(request.POST or None, instance=request.user)
+        if form.is_valid():
+            form.save()
+            if request.user.role=="investor":
+                return redirect("user_dashboard")
+            elif request.user.role=="guider":
+                return redirect("guider_dashboard")
+    else:
+        form = FeedbackForm(instance=request.user)
+        return render(request, 'feedback.html', {'form': form})
 
 def login_page(request):
     if request.method=="POST":
@@ -34,10 +46,12 @@ def login_page(request):
                         investor=Investor.objects.get(user=user)
                         request.session["id"]=investor.id
                         return render(request,"user_dashboard.html")
-                    else:
+                    elif user.role=="guider":
                         guider=Guider.objects.get(user=user)
                         request.session["id"]=guider.id
-                        return render(request,"guider_dashboard.html")    
+                        return render(request,"guider_dashboard.html")
+                    else:
+                        return render(request,"manager_dashboard.html")    
                 else:
                     messages.error(request,"No such user found. Please try again.")
                     return render(request,"login.html",{"form":form})
@@ -73,7 +87,8 @@ def signup(request):
                 Investor.objects.create(name=user.username, email=user.email,user=user)
             elif user.role=="guider":
                 Guider.objects.create(name=user.username, email=user.email,user=user)
-
+            else:
+                Manager.objects.create(name=user.username,email=user.email,user=user)
             messages.success(request, "Registration successful. Please log in.")
             return redirect("login")
 
@@ -290,7 +305,6 @@ def consultation(request):
             messages.error(request,"Please correct the errors in the form.")
             return render(request,"consultation.html",{"form":ConsultationForm()})
         
-
 def payment(request):
     if request.method=="GET":
         form=payementForm()
@@ -379,3 +393,93 @@ def organize_webinar(request):
             instance.save()
         
         return redirect("guider_dashboard")
+    
+
+def manage_user(request):
+    if request.method=="GET":
+        user_data = CustomUser.objects.filter(Q(role="investor") | Q(role="guider"))
+        return render(request, 'manage_user.html',{"user_data":user_data})
+    else:
+        selected_users=request.POST.getlist('del')
+        CustomUser.objects.filter(id__in=selected_users).delete()
+        return render(request,"manager_dashboard.html")
+
+def manage_subscriptions(request):
+    if request.method == "GET":
+        return render(request, 'manage_subscription.html')
+    else:
+        user_data = Investor.objects.filter(ispaid=True)
+
+        for ud in user_data:
+            if ud.payementDate and (date.today() - ud.payementDate).days >= 30:
+                ud.ispaid = False
+                ud.payementDate = None
+                ud.save()
+
+        all_users = Investor.objects.all()
+        paid_users = Investor.objects.filter(ispaid=True)
+
+        context = {
+            "total": all_users.count(),
+            "sub": paid_users.count(),
+            "not_sub": all_users.count() - paid_users.count(),
+            "user_data": paid_users
+        }
+        # print(context.get("total"))
+        return render(request, "manage_subscription.html", {**context,"print":True})
+        
+def control_over_webinars(request):
+    if request.method=="GET":
+        webinar=Webinar.objects.filter(isApproved=False)
+        webinar_data=[]
+        for w in webinar:
+            webinar_data.append({
+                "id":w.id,
+                "Topic":w.title,
+                "Host":w.guider.name,
+                "Date":w.date,
+                "time":w.time
+            })
+        return render(request, 'control_over_web.html',{"webinar_data":webinar_data})  # Fix typo in URL name
+    else:
+        webinar_id=request.POST.get("webinar_id")
+        action=request.POST.get("action")
+
+        webinar=Webinar.objects.get(id=webinar_id)
+        if action=="approve":
+             webinar.isApproved=True
+        elif action=="reject":
+             webinar.isApproved=False
+        webinar.save()
+        return redirect("control_over_webinars")
+
+def feedback(request):
+    user_data=CustomUser.objects.filter(feedback!=None)
+    feed=[]
+    for user in user_data:
+        feed.append({
+            "id":user.id,
+            "name":user.first_name+" "+user.last_name,
+            "email":user.email,
+            "fd":user.feedback
+        })
+    return render(request, 'feedback_manage.html',{"feedback":feed})
+
+
+def guider_approve(request):
+    if request.method=="GET":
+        unapproved_guider=Guider.objects.filter(isSelected=False)
+        return render(request,"manage_guider.html",{"guider_data":unapproved_guider})
+    else:
+        guider_id=request.POST.get("guider_id")
+        action=request.POST.get("action")
+
+        guider=Guider.objects.get(id=guider_id)
+        if action=="approve":
+            guider.isSelected=True
+            guider.save()
+        elif action=="reject":
+            #first send email that you are not selected
+            guider.delete()
+        
+        return redirect("guider_approve")
