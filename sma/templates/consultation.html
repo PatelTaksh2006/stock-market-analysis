@@ -65,6 +65,9 @@
     <div class="container">
         <h2>Schedule Your Consultation</h2>
         <p>Get one-on-one advice tailored to your financial goals and investment needs. Fill out the form below to schedule your consultation.</p>
+        {% if error %}
+        <span style="color: red;">{{error}}</span>
+        {% endif %}
         <form action="" method="post">
             {% csrf_token %}
             {{form.as_p}}

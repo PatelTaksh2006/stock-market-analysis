@@ -88,6 +88,12 @@
     <div class="header">Welcome to Paper Trading Platform</div>
     <div class="container">
         <h2>Trade Stocks</h2>
+        {% if error %}
+        <span style="color: red;">{{error}}</span>
+        {%endif %}
+        {% if success %}
+        <span style="color: green;">{{success}}</span>
+        {% endif %}
         <form method="post" action="">
             {% csrf_token %}
             {{form.as_p}}

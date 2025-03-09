@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomUser, Investor, Manager, Guider, Stock, InvestorStock, Watchlist, Webinar, investorConsultation
+from .models import *
 
 # Register CustomUser with extra admin options
 @admin.register(CustomUser)
@@ -48,3 +48,10 @@ class WebinarAdmin(admin.ModelAdmin):
 class InvestorConsultationAdmin(admin.ModelAdmin):
     list_display = ('user', 'goal', 'prefered_date', 'info')
     search_fields = ('user__name', 'goal')
+
+
+@admin.register(UserWebinar)
+class UserWebinarAdmin(admin.ModelAdmin):
+    list_display=('investor','webinar')
+    search_fields=('investor','webinar')
+

@@ -84,6 +84,9 @@
     <div class="container">
         <h2>Current Market State</h2>
         <div class="search-box">
+            {% if error %}
+            <span style="color: red;">{{error}}</span>
+            {% endif %}
             <form method="post" action="current_market_state">
                 {% csrf_token %}
                 {{form.as_p}}
@@ -113,7 +116,7 @@
             <tr>
                 <td>XYZ Ltd</td>
                 <td>$80</td>
-                <td class="negative">-1.5%</td>
+                <td>IT</td>
                 <td>600,000</td>
             </tr>
             <tr>
@@ -141,6 +144,10 @@
                     <td>{{w.price}}</td>
                 </tr>
                 {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="3" style="text-align: center;">No stocks in watchlist</td>
+                </tr>
                 {% endif %}
             </table>
         </div>

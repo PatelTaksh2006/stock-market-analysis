@@ -72,12 +72,28 @@
 <body>
     <div class="container">
         <div class="header">Upcoming Webinars</div>
+        {% if error %}
+        <span style="color: red;">{{error}}</span>
+        {% endif %}
         {% if register %}
         <p>Select any webinar from the options below to register.</p>
 
         <form action="webinar_registration" method="post">
             {% csrf_token %}
-            {{form.as_p}}
+            <table>
+                <tr><th>Title</th><th>Date</th><th>Time</th></tr>
+            {% for d in data %}
+            <tr><td>
+                {% if d.id in registered_webinars %}
+                <span style="color: green;">Already registered</span>
+                {% else %}
+                <input type="checkbox" name="web" id="web" value="{{d.id}}">
+                {% endif %}
+            </td>
+                <td>{{d.title}}</td><td>{{d.date}}</td><td>{{d.time}}</td></tr>
+            {% endfor %}
+            </table>
+            <button type="submit">Register</button>
         </form>
         {% else %}
         <p> There is no webinar available right now please try again later</p>

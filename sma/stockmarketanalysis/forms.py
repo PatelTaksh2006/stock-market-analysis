@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from .models import *
+from django.core.exceptions import ValidationError
+
 # from django.contrib.auth import commit
 from django.contrib.auth.models import User
 
@@ -87,7 +89,7 @@ class ConsultationForm(forms.ModelForm):
     
 
 class WebinarForm(forms.Form):
-    data=Webinar.objects.all()
+    data=Webinar.objects.filter(isApproved=True)
     web=forms.MultipleChoiceField(choices=data,widget=forms.CheckboxSelectMultiple,required=True,label="Select a Webinar:")
 
 
@@ -106,11 +108,28 @@ class PaperTradingStock(forms.ModelForm):
         fields=["stock_name","no_of_purchase","buy_sell"]
 
     
-class payementForm(forms.Form):
-    card_number=forms.CharField(max_length=16,label="Card Number",required=True,widget=forms.NumberInput(attrs={"placeholder":"1234 5678 9101 1121"}))
-    expiry_date=forms.DateField(label="expiry Date(MM/YYYY)",widget=forms.DateInput(attrs={'type': 'month'}),
-        input_formats=['%m/%y'],required=True)
-    cvv=forms.CharField(max_length=3,required=True,widget=forms.PasswordInput(attrs={"placeholder":"***"}))
+# class PaymentForm(forms.Form):
+#     card_number = forms.CharField(
+#         max_length=16, 
+#         min_length=16,  # Ensure exactly 16 digits
+#         label="Card Number",
+#         required=True,
+#         validators=[validate_card_number],  # Apply custom validation
+#         widget=forms.NumberInput(attrs={"placeholder": "1234567890123456", "pattern": "[0-9]{16}"})
+#     )
+#     expiry_date = forms.DateField(
+#         label="Expiry Date (MM/YYYY)",
+#         widget=forms.DateInput(attrs={'type': 'month'}),
+#         input_formats=['%Y-%m'],  # Adjust input format
+#         required=True
+#     )
+#     cvv = forms.CharField(
+#         max_length=3, 
+#         min_length=3,  # Ensure exactly 3 digits
+#         required=True, 
+#         widget=forms.PasswordInput(attrs={"placeholder": "***", "pattern": "[0-9]{3}"})
+#     )
+
 
 
 class specialityForm(forms.ModelForm):
@@ -132,5 +151,11 @@ class WebinarRegisterForm(forms.ModelForm):
     class Meta:
         model=Webinar
         fields=["title","date","time","duration","link"]
+        widgets = {
+            "date": forms.DateInput(attrs={"type": "date"}),  
+            "time": forms.TimeInput(attrs={"type": "time"}), 
+            "duration":forms.NumberInput(attrs={"min": 30}), 
+            "link": forms.URLInput(attrs={"placeholder": "https://meet.google.com/topic"}),
+        }
 
     

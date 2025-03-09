@@ -55,8 +55,8 @@ class Stock(models.Model):
 class InvestorStock(models.Model):
     investor=models.ForeignKey(Investor,on_delete=models.CASCADE)
     stock=models.ForeignKey(Stock,on_delete=models.CASCADE)
-    no_of_purchase=models.IntegerField()
-    price_of_buy=models.FloatField()
+    no_of_purchase=models.IntegerField(null=True,blank=True)
+    price_of_buy=models.FloatField(null=True,blank=True)
 
 
 
@@ -68,12 +68,18 @@ class Watchlist(models.Model):
 class Webinar(models.Model):
     guider=models.ForeignKey(Guider,on_delete=models.CASCADE)
     title=models.CharField(max_length=20)
-    date=models.DateField(default="ui")
-    time=models.TimeField(default="ui")
+    date=models.DateField(null=True,blank=True)
+    time=models.TimeField(null=True,blank=True)
     link=models.CharField(max_length=60,default="")
     duration=models.IntegerField()
     number_of_attendee=models.IntegerField(default=0)
     isApproved=models.BooleanField(default=False)
+
+
+class UserWebinar(models.Model):
+    investor=models.ForeignKey(Investor,on_delete=models.CASCADE)
+    webinar=models.ForeignKey(Webinar,on_delete=models.CASCADE)
+
 
 class investorConsultation(models.Model):
     goal_choices=[
