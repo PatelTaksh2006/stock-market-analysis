@@ -80,6 +80,9 @@
         </div>
     </div>
     <div class="container">
+        {% if name %}
+        <h1>Welcome,{{name}}</h1>
+        {% endif %}
         <p>Welcome to Stock Market Analysis! Explore the tools and resources we offer to make informed investment decisions.</p>
         {% if form %}
             <form method="post" action="">

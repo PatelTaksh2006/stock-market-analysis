@@ -146,7 +146,7 @@ def addToWatchlist(request,name):
         wl=Watchlist.objects.get(investor=investor,stock=stock)
     except Watchlist.DoesNotExist:
         Watchlist.objects.create(investor=investor,stock=stock)
-    form=searchForm()
+    # error="Already present in watchlist"
     return redirect("current_market_state")
 
 
@@ -369,14 +369,15 @@ def consultation(request):
 def guiderdashboard(request):
    guider_id=request.session["id"]
    guider=Guider.objects.get(id=guider_id)
+   name=guider.name
    if request.method=="GET":
        if guider.experties is None:
            print("guider has not any experties")
            form=specialityForm()
-           return render(request,"guider_dashboard.html",{"form":form})
+           return render(request,"guider_dashboard.html",{"form":form,"name":name})
       
        elif not guider.isSelected:
-           return render(request,"guider_dashboard.html",{"msg":"Your approval is send to the Manager\nWait for approval"})
+           return render(request,"guider_dashboard.html",{"msg":"Your approval is send to the Manager\nWait for approval","name":name})
        else:
            return render(request,"guider_dashboard.html")
    elif request.method=="POST":
@@ -431,15 +432,16 @@ def organize_webinar(request):
             instance=form.save(commit=False)
             print(f"Selected Date: {instance.date}, Today's Date: {date.today()}")
 
-            if instance.date<date.today():
-                redirect(reverse("organizewebinar")+"?error=Please enter valid date")
+            if instance.date<=date.today():
+                print("got it")
+                return redirect(reverse("organizewebinar")+"?error=Please enter valid date")
             instance.guider=Guider.objects.get(id=request.session["id"])
             instance.save()
         else:
             print("invalid")
             redirect(reverse("organizewebinar")+"?error=Please enter valid data input")
             
-        return redirect("guider_dashboard")
+        return redirect(reverse("guider_dashboard")+"?error=For delete you have to selectt  atleasr one user")
     
 
 def manage_user(request):
@@ -448,6 +450,8 @@ def manage_user(request):
         return render(request, 'manage_user.html',{"user_data":user_data})
     else:
         selected_users=request.POST.getlist('del')
+        if len(selected_users) == 0:
+            return redirect("manager_dashboard")
         CustomUser.objects.filter(id__in=selected_users).delete()
         return render(request,"manager_dashboard.html")
 

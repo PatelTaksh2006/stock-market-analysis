@@ -76,17 +76,17 @@ WSGI_APPLICATION = 'sma.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'stock_market_analysis',
-        'USER':'root',
-        'PASSWORD':'Taksh123@',
-        'HOST':'localhost',
-        'PORT':'3306',
-        'OPTIONS':{
-            'init_command':"SET sql_mode='STRICT_TRANS_TABLES'"
-        }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': 'stock_market_analysis',
+        # 'USER':'root',
+        # 'PASSWORD':'Taksh123@',
+        # 'HOST':'localhost',
+        # 'PORT':'3306',
+        # 'OPTIONS':{
+        #     'init_command':"SET sql_mode='STRICT_TRANS_TABLES'"
+        # }
     }
 }
 AUTH_USER_MODEL = 'stockmarketanalysis.CustomUser'

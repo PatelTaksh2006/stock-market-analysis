@@ -81,6 +81,9 @@
     <div class="container">
         <div class="form-box">
             <h2>Organize a Webinar</h2>
+            {% if error %}
+            <span style="color: red;">{{error}}</span>
+            {% endif %}
             <form method="post" action="">
                 {% csrf_token %}
                 {{ form.as_p }}  <!-- This will render the form with proper labels and fields -->
