@@ -48,7 +48,7 @@ def login_page(request):
                     if user.role=="investor":
                         investor=Investor.objects.get(user=user)
                         request.session["id"]=investor.id
-                        return render(request,"user_dashboard.html",{"name":investor.name})
+                        return redirect("user_dashboard")
                     elif user.role=="guider":
                         guider=Guider.objects.get(user=user)
                         request.session["id"]=guider.id
